@@ -62,8 +62,8 @@ Unlike standard task-tracking applications that rely on bulky libraries or frame
     ```
 2.  **Navigate to the project folder:**
     ```bash
-    cd ExpenseTrackerApp
+    cd TodoListApp
     ```
 
-3. **L**aunch the app:**
+3. **Launch the app:**
     Open index.html in your favorite browser or use a Live Server extension.
