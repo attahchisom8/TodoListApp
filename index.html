@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modern Todo-list app</title>
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="fontawesome-free-6.5.1-web/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script type="module" src="js/main.js" defer></script>
+</head>
+
+<body>
+  <!-- NAVBBAR -->
+  <aside class="sidebar-nav">
+    <div class="brand-area desktop-only">
+      <span class="brand-owner">Mastermose</span>
+      <span class="brand-version">V1.1</span>
+    </div>
+    <nav class="nav">
+      <div class="tabs navlist-mobile">
+        <div class="mobile-search-container">
+          <input
+            id="mobile-search"
+            type="search"
+            list="datalist-workspaces";
+            placeholder="search-workspaces"
+            required
+          />
+          <i class="fa-solid fa-search" id="search-mobile-workspace"></i>
+          <button id="search-cancel-btn">x</button>
+        </div>
+        <ul class="sort-tab">
+          <li class="search-workspace-mobile" title="search workspaces"><i class="fa-solid fa-search" id="search-item-icon"></i></li>
+          <li class="item-heading">sort by ...</li>
+	        <li data-sort="Task Details">Task Details</li>
+          <li data-sort="Expiration Date">Expiration Date</li>
+          <li class="item-heading">Priorities</li>
+          <li data-sort="Low Priority">Low Priority</li>
+          <li data-sort="Medium Priority">Medium Priority</li>
+          <li data-sort="High Priority">High Priority</li>
+          <li class="item-heading">Status</li>
+          <li data-sort="Pending">Pending</li>
+          <li data-sort="Completed">Completed</li>
+          <li data-sort="Uncompleted">Uncompleted</li>
+          <li class="item-heading">Restore</li>
+          <li data-sort="Default">Default</li>
+          <li id="sortTab-cancel-btn">Cancel</li>
+        </ul>
+        <ul class="workspace-tab">
+          <li>Add workspace</li>
+          <li>Select workspace</li>
+          <li>Update workspace</li>
+          <li>Delete workspace</li>
+          <li id="workspaceTab-cancel-btn">Cancel</li>
+        </ul>
+      <ul class="workspaces"></ul>
+
+        <div class="toggle-menu">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+      </div>
+      <span class="tut">Tutorial</span>
+      <span class="choose-workspace" id="choose-mobile-workspace">sel/add/del workspace</span>
+      </div>
+
+      <!-- Nav for Desktop -->
+
+      <!-- Group 1 nav actions -->
+      <div class="nav-group core-actions navlist-desktop">
+        <span class="nav-group-label">Core Actions</span>
+        <ul class="nav-links">
+          <li class="nav-item-btn tut-desktop">
+            <span class="icon">💡</span> <span class="text">Tutorial</span>
+          </li>
+          <li class="nav-itemm-btn desk-search">
+            <input
+              type="search"
+              placeholder="search workspaces"
+              list="datalist-workspaces"
+              id="nav-search-input"
+              required
+            />
+            <datalist id="datalist-workspaces"></datalist>
+            <button class="fa-solid fa-search" id="desk-search-btn"></button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Group 2 workspaces -->
+      <div class="nav-group workspace-management navlist-desktop">
+        <span class="nav-group-label">Workspaces</span>
+        <ul class="nav-links">
+          <li class="nav-item dropdown-trigger">
+            <span class="arrow">▶</span> <span class="icon">📁</span> <span class="text">Switch Workspace</span>
+          </li>
+          <li class="dropdown-wrapper">
+            <ul class="workspaces-desktop select-tab"></ul>
+          </li>
+          <li class="nav-item-btn add-workspace-desktop">
+            <span class="icon">＋</span> <span class="text">Add Workspacce</span>
+          </li>
+          <li class="nav-item dropdown-trigger">
+            <span class="arrow">▶</span> <i class="fa solid fa-trash-can"></i> <span class="text">Delete Workspace</span>
+          </li>
+          <li class="dropdown-wrapper">
+            <ul class="workspaces-desktop delete-tab"></ul>
+          </li>
+          <li class="nav-item dropdown-trigger">
+            <span class="arrow">▶</span> <i class="fa-solid fa-pen-square"></i> <span class="text">Update A Workspace</span>
+          </li>
+          <li class="dropdown-wrapper">
+            <ul class="workspaces-desktop update-tab"></ul>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Group 3 Filter group -->
+      <div class="nav-group filter-management navlist-desktop">
+        <span class="nav-group-label">Sort & Filter</span>
+        <ul class="nav-links">
+          <li class="nav-item dropdown-trigger">
+            <span class="arrow">▶</span> <span class="icon">⚙️</span> <span class="text">Sort Task</span>
+          </li>
+          <li class="dropdown-wrapper">
+            <ul class="sort-tab-desktop">
+              <li class="item-heading">sort by ...</li>
+              <li data-sort="Task Details">Task Details</li>
+              <li data-sort="Expiration Date">Expiration Date</li>
+              <li class="item-heading">Priorities</li>
+              <li data-sort="Low Priority">Low Priority</li>
+              <li data-sort="Medium Priority">Medium Priority</li>
+              <li data-sort="High Priority">High Priority</li>
+              <li class="item-heading">Status</li>
+              <li data-sort="Pending">Pending</li>
+              <li data-sort="Completed">Completed</li>
+              <li data-sort="Uncompleted">Uncompleted</li>
+              <li class="item-heading">Restore</li>
+              <li data-sort="Default">Default</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- WORKSPACE SECTION -->
+  <main class="main-content">
+    <div class="dropdown-search-menu">
+      <div class="found-search">
+        <div class="found-workspace-item">
+          <span id="found-workspace">Test found workspace</span>
+          <span class="fa-solid fa-ellipsis-vertical" id="dropdown-icon"></span>
+          <div class="dropdown-mobile-actions mobile-only">
+            <span id="mobile-action-select">switch into</span>
+            <span id="mobile-action-update">update</span>
+            <span id="mobile-action-delete">delete</span>
+            <span id="mobile-action-cancel-btn">Cancel</span>
+          </div>
+          <div class="dropdown-desktop-actions">
+            <span id="desktop-action-select">switch into</span>
+            <span id="desktop-action-update">update</span>
+            <span id="desktop-action-delete">delete</span>
+            <span id="desktop-action-cancel-btn">Cancel</span>
+          </div>
+        </div>
+      </div>
+      <div class="no-search-result">
+        <div class="no-result-msg">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <h5>No Result Found!</h5>
+        </div>
+        <p>Try adjusting your search parameters</p>
+      </div>
+    </div>
+    <div class="mose-brand"><span class="mose-brand-tech">Brought to you by Mastermose production inc &copy;</span></div>
+    <h1 class="mobile-only">Todo List</h1>
+    <div class="delete-modal-box">
+      <dialog>
+        <p>Are you sure you want to delete this workspace</p>
+        <div class="dialog-btn-container">
+          <button id="dialog-cancel-btn">cancel</button>
+          <button id="dialog-delete-btn">delete</button>
+        </div>
+      </dialog>
+    </div>
+    
+    <!-- WORKSPACE SECTION SETUP -->
+    <section class="section-workspace">
+      <div class="replacable-item"></div>
+      <h2 id="curr-workspace">Health workspace</h2>
+      <div class="time-date">
+        <div class="time clock">
+          <div class="hand second" id="second-hand"></div>
+          <div class="hand minute" id="minute-hand"></div>
+          <div class="hand hour" id="hour-hand"></div>
+          <div class="center-knob"></div>
+        </div>
+        <div class="time date"></div>
+      </div>
+      <div class="date-warning dynamic-typing"></div>
+      <div class="tutorial-panel">
+        <button id="close-panel-btn">X</button>
+        <h3 class="tut-welcome">Welcome To Mastermose Technology</h3>
+        <article class="tut-article">
+          <h1>Todo App User Guide</h1>
+          
+          <section>
+            <h2>1. Managing Your Workspace</h2>
+            <p>Your data is organized into Workspaces. Use the navigation menu (<strong>Mobile:</strong> tap the toggle menu to reveal) to switch, add, or update workspaces.</p>
+          </section>
+          
+          <section>
+            <h2>2. Task Management & Status Rules</h2>
+            <p>Every task has a status that dictates its interactivity:</p>
+            <ul>
+              <li><strong>Pending:</strong><br><p>Active tasks that you can mark as "Done."</p></li>
+              <li><strong>Done (Past Due):</strong><br><p>If a task is completed and the due date has passed, it is locked.</p></li>
+              <li><strong>Undone:</strong><br><p>Tasks that pass their due date without being marked as "Done" are automatically flagged as "Undone" and are locked to prevent accidental status changes.</p></li>
+            </ul>
+            <p><em>Note:</em> If a task is locked (Done or Undone), you can still use the <strong>Edit</strong> button to update the task details or date. Any successful update will reset the task status to <strong>Pending</strong>, allowing you to interact with it normally again.</p>
+          </section>
+  
+          <section>
+            <h2>3. Mobile vs. Desktop Navigation</h2>
+            <p>While the interface is similar, please note the following difference:</p>
+            <strong>Mobile Users:</strong><br><p class="move-right">Because screen space is limited, the primary action controls for tasks are contained within a secondary view.<br><br><em>Note:</em> You must click the dedicated <strong>Action Button</strong> located near the table row to expand and reveal the hidden Edit and Delete controls.</p>
+          </section>
+          
+          <section>
+            <h2>4. Productivity Features</h2>
+            <ul>
+              <li><strong>Drag-and-Drop:</strong><br><p>You can manually reorder your tasks by clicking and holding any row, then sliding it to your desired position.</p></li>
+              <li><strong>Search:</strong><br><p>Use the search input to quickly locate specific workspaces.</p></li>
+              <li><strong>Keyboard Shortcuts:</strong><br><p>Press <strong>Enter</strong> while focused on any input field (task name, date, or search) to submit your changes instantly.</p></li>
+            </ul>
+          </section>
+  
+          <section>
+            <h2>⚠️ Important Warnings</h2>
+            <p><em>Note:</em> This application uses your browser's local storage. Clearing your browser cache or site data will permanently delete all your tasks and workspace configurations.</p>
+            <p><em>Note:</em> Task dates cannot be set to the past. The system will alert you and prevent the action if an invalid date is submitted.</p>
+          </section>
+        </article>
+      </div>
+
+      <!-- Task input container -->
+      <div class="task-input-container">
+        <input
+          type="text"
+          id="task-name"
+          placeholder="Add task to your workspace"
+          aria-label="task-name"
+        />
+          
+        <select
+          id="set-priority"
+          title="set task priority"
+          aria-label="set-task-priority"
+        >
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+          </select>
+        <input
+          type="date"
+          id="task-date"
+          title="set overdue time"
+          aria-label="task-date"
+        />
+      </div>
+      <button id="add-task">Add Task</button>
+      <br>
+      <h3 id="tasks">Tasks</h3>
+      <button class="toggle-actions mobile-only" id="toggle-tb-action-btn">actions</button>
+      <table id="task-table" class="responsive-table">
+        <thead class="table-header">
+          <tr>
+          <th id="th-status">STATUS</th>
+          <th id="th-details">TASK DETAILS</th>
+          <th id="th-priority">PRIORITY</th>
+          <th id="th-actions">
+            <span class="actions-label">ACTIONS</span>
+          </th>
+          <th id="th-date">DATE</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+    <section class="space-at-bottom"></section>
+  </main>
+
+</body>
+</html>
