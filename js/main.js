@@ -929,10 +929,12 @@ let rafId = null;
 let lastY = 0;
 let draggingRow = null;
 let rowBoxes = [];
+let draggingRowId = null, targetedRowId = null;
 
 tableBody.addEventListener("dragstart", (e) => {
   draggingRow = e.target.closest("tr");
   draggingRow.classList.add("dragging");
+  draggingRowId = draggingRow.dataset.id;
   rowBoxes = [...tableBody.children].filter((row) => row !== draggingRow)
     .map((r) => {
       const box = r.getBoundingClientRect();
@@ -945,15 +947,25 @@ tableBody.addEventListener("dragstart", (e) => {
 
 tableBody.addEventListener("dragend", (e) => {
   draggingRow.classList.remove("dragging");
+
+  if (draggingRowId && targetedRowId && (draggingRowId !== targetedRowId)) {
+    reOrderTasks(draggingRowId, targetedRowId);
+  }
+
   draggingRow = null;
   lastAfterElement = null;
   cancelAnimationFrame(rafId);
-  reOrderTasks();
+  draggingRowId = null;
+  targetedRowId = null;
 });
 
 tableBody.addEventListener("dragover", (e) => {
   e.preventDefault();
+  const targetedRow = e.target.closest("tr");
+
   lastY = e.clientY;
+  if (targetedRow && targetedRow.dataset.id !== draggingRowId)
+    targetedRowId = targetedRow.dataset.id;
   
   rafId = requestAnimationFrame(() => {
     rafId = null;
@@ -1007,16 +1019,12 @@ const updateRowPosition = (y) => {
  }
 
 
- const reOrderTasks = () => {
-  const newOrderIds = [...tableBody.querySelectorAll("tr")]
-    .map((row) => row.dataset.id);
-    const orderMap = new Map(currWorkspace.map((task) => [task.id, task]));
-    const reOrderedTasks = newOrderIds.map((id) => orderMap.get(id));
-    ;
+ const reOrderTasks = (currId, targetId) => {
+    const currTaskId = currWorkspace.findIndex((t) => t.id === currId);
+    const targetTaskId = currWorkspace.findIndex((t) => t.id === targetId);
+    const [moveTask] = currWorkspace.splice(currTaskId, 1);
+    currWorkspace.splice(targetTaskId, 0, moveTask);
 
-    currWorkspace.length = 0;
-    currWorkspace.push(...reOrderedTasks);
-    
     store.saveToStore(workspaceObj);
  }
 
